@@ -1,7 +1,17 @@
 require 'keepassxc'
 
-kpx = KeepassXC::Client.new client_name: `hostname`.chomp, client_identifier: ENV['KPX_KEY']
+name = ARGV[1] || `hostname`.chomp
+
+cfg = KeepassXC::KeyStore.find_or_create
+kpx = KeepassXC::Client.new client_name: name
 kpx.change_public_keys
-# kpx.associate
+if cfg.profiles[name]
+  kpx.client_identifier = cfg.profiles[name]
+else
+  kpx.associate
+  cfg.profiles[name] = kpx.client_identifier
+  cfg.save
+end
 kpx.test_associate
+
 puts kpx.get_logins(ARGV[0]).first['password']

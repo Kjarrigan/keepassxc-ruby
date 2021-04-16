@@ -9,5 +9,6 @@ module KeepassXC
 
   autoload :Client, 'keepassxc/client'
   autoload :Helper, 'keepassxc/helper'
+  autoload :KeyStore, 'keepassxc/key_store'
   autoload :VERSION, 'keepassxc/version'
 end

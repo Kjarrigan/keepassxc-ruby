@@ -4,7 +4,7 @@ module KeepassXC
   class Client
     include Helper
 
-    attr_reader :client_id, :client_identifier, :client_name
+    attr_accessor :client_id, :client_identifier, :client_name
 
     def initialize(client_identifier: nil, client_name: nil)
       @client_id = generate_nonce
