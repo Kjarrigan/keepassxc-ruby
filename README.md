@@ -7,7 +7,7 @@ Similar to my https://github.com/Kjarrigan/keepasshttp-ruby repo.
 
 A coworker just asked me wether I have use the keepassxc-cli but it requires
 to enter a password every time which is annoying and then I remembered my
-keepasshttp-ruby binding and it turns out this is no longer the descired way
+keepasshttp-ruby binding and it turns out this is no longer the desired way
 for KeepassXC. So why not make the new version work. Yay!
 
 ## Links
@@ -21,24 +21,21 @@ over quite a bit of context.
 
 ## Basic communication snippet
 
-A "cleaned" up list of my irb tinkering.
+It is already working now! Altough some comfort is still missing, you can already register your client and
+fetch logins. Yay!
 
 ```
-require 'socket'
-require 'oj'
-require 'openssl'
+load 'test.rb'
 
-sock = UNIXSocket.new("/run/user/1000/kpxc_server")
-session = OpenSSL::Cipher.new('AES-256-CBC')
-session.encrypt
-
-nonce = [session.random_iv].pack('m*').chomp
-
-msg = { action: 'change-public-keys', publicKey: 'foo', nonce: nonce, clientID: nonce }
-msg = Oj.dump(msg, mode: compat)
-sock.send msg, 0
-resp = sock.recvfrom 4096
-# => ["{\"action\":\"change-public-keys\",\"nonce\":\"K0o6k8aryTaojvjC0aI0rQ==\",\"publicKey\":\"SBq9Il9sc8uIskldtU5obsPPTax6WSkTl6Mt1v5E4Rs=\",\"success\":\"true\",\"version\":\"2.3.1\"}", ["AF_UNIX", "/run/user/1000/N2h3kr/s"]]
+kpx = KeepassXC.new client_identifier: KEY_FROM_ASSOCIATE_OR_DB, client_name: ID_FROM_ASSOCIATE_OR_DB
+kpx.change_public_keys
+# kpx.associate
+kpx.test_associate
+p kpx.get_logins 'https://github.com'
 ```
 
-Seems easy enough and like a good weekend project.
+You can check what clients are already registered in your DB via the GUI like this:
+* Database
+* Database-Settings
+* Browser-Integration
+Technically you could even re-use the Key/ID from your browser by just copying them from there.
