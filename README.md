@@ -17,14 +17,13 @@ over quite a bit of context.
 
 * [My HTTP Code](https://github.com/Kjarrigan/keepasshttp-ruby/blob/master/lib/keepasshttp.rb)
 * [The official protocal docs](https://github.com/keepassxreboot/keepassxc-browser/blob/develop/keepassxc-protocol.md)
-* [A python binding for the unix socket](https://github.com/varjolintu/keepassxc-proxy/blob/master/python_version/keepassxc-proxy)
 
 ## Basic communication snippet
 
 It is already working now! Altough some comfort is still missing, you can already register your client and
 fetch logins. Yay!
 
-```
+```ruby
 load 'test.rb'
 
 kpx = KeepassXC.new client_identifier: KEY_FROM_ASSOCIATE_OR_DB, client_name: ID_FROM_ASSOCIATE_OR_DB
@@ -38,4 +37,5 @@ You can check what clients are already registered in your DB via the GUI like th
 * Database
 * Database-Settings
 * Browser-Integration
+
 Technically you could even re-use the Key/ID from your browser by just copying them from there.
